@@ -6,9 +6,9 @@ class WiseSayingRepository {
     val wiseSayings = mutableListOf<WiseSaying>()
     var count = 0
 
-    fun add(sentence: String, author: String): Int {
+    fun add(content: String, author: String): Int {
         ++count
-        wiseSayings.add(WiseSaying(count, sentence, author))
+        wiseSayings.add(WiseSaying(count, content, author))
         return count
     }
 
@@ -20,11 +20,11 @@ class WiseSayingRepository {
         wiseSayings.remove(wiseSaying)
     }
 
-    fun update(id: Int, sentence: String, author: String) {
+    fun update(id: Int, content: String, author: String) {
         val index = wiseSayings.indexOfFirst { saying -> saying.id == id }
 
         if (index != -1) {
-            wiseSayings[index] = WiseSaying(id, sentence, author)
+            wiseSayings[index] = WiseSaying(id, content, author)
         }
     }
 }

@@ -18,6 +18,21 @@ class App {
             else if (input == "목록") {
                 controller.list()
             }
+            else if (input.startsWith("목록?")) {
+                val queryString = input.substringAfter("목록?")
+
+                val params = queryString.split("&").associate {
+                    val bits = it.split("=", limit = 2)
+                    val key = bits.getOrNull(0) ?: ""
+                    val value = bits.getOrNull(1) ?: ""
+                    key to value
+                }
+
+                val keywordType = params["keywordType"]
+                val keyword = params["keyword"]
+
+                controller.list(keywordType, keyword)
+            }
             else if (input.startsWith("삭제?id=")) {
                 val id = input.substringAfter("삭제?id=").toIntOrNull()
                 id?.let { controller.delete(it) }

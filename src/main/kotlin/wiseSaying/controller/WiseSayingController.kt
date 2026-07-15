@@ -7,19 +7,26 @@ class WiseSayingController {
 
     fun write(){
         print("명언 : ")
-        val sentence = readlnOrNull() ?: ""
+        val content = readlnOrNull() ?: ""
         print("작가 : ")
         val author = readlnOrNull() ?: ""
-        val id = wiseSayingService.add(sentence, author)
+        val id = wiseSayingService.add(content, author)
         println("${id}번 명언이 등록되었습니다.")
     }
 
-    fun list(){
-        val wiseSayings = wiseSayingService.findAll()
+    fun list(keywordType: String? = null, keyword: String? = null){
+        val wiseSayings = wiseSayingService.findAll(keywordType, keyword)
+
+        if (keywordType != null && keyword != null) {
+            println("----------------------")
+            println("검색타입 : $keywordType")
+            println("검색어 : $keyword")
+            println("----------------------")
+        }
         println("번호 / 작가 / 명언")
         println("----------------------")
         wiseSayings.asReversed().forEach { saying ->
-            println("${saying.id} / ${saying.author} / ${saying.sentence}")
+            println("${saying.id} / ${saying.author} / ${saying.content}")
         }
     }
 
@@ -35,13 +42,13 @@ class WiseSayingController {
     fun modify(id: Int){
         val found = wiseSayingService.findById(id)
         if(found != null) {
-            println("명언(기존) : ${found.sentence}")
+            println("명언(기존) : ${found.content}")
             print("명언 : ")
-            val newSentence = readlnOrNull() ?: ""
+            val newContent = readlnOrNull() ?: ""
             println("작가(기존) : ${found.author}")
             print("작가 : ")
             val newAuthor = readlnOrNull() ?: ""
-            wiseSayingService.update(id, newSentence, newAuthor)
+            wiseSayingService.update(id, newContent, newAuthor)
             println("${id}번 명언이 수정되었습니다.")
         } else {
             println("${id}번 명언은 존재하지 않습니다.")
