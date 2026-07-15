@@ -8,17 +8,21 @@ class WiseSayingService {
 
     fun add(content: String, author: String) = wiseSayingRepository.add(content, author)
 
-    fun findAll(keywordType: String? = null, keyword: String? = null): List<WiseSaying> {
-        val all = wiseSayingRepository.findAll()
+    fun findAll(page: Int, keywordType: String?, keyword: String?): Pair<List<WiseSaying>, Int> {
+        var all = wiseSayingRepository.findAll()
 
-        if(keywordType != null && keyword != null) {
-            return when (keywordType) {
+        if (keywordType != null && keyword != null) {
+            all = when (keywordType) {
                 "content" -> all.filter { saying -> saying.content.contains(keyword) }
                 "author" -> all.filter { saying -> saying.author.contains(keyword) }
                 else -> all
             }
         }
-        return all
+
+        val chunks = all.asReversed().chunked(5)
+        val pagedList = chunks.getOrNull(page - 1) ?: emptyList()
+        val totalPages = maxOf(1, chunks.size)
+        return Pair(pagedList, totalPages)
     }
 
     fun findById(id: Int) = wiseSayingRepository.findById(id)

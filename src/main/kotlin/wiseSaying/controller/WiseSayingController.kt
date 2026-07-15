@@ -5,7 +5,7 @@ import com.wiseSaying.service.WiseSayingService
 class WiseSayingController {
     val wiseSayingService = WiseSayingService()
 
-    fun write(){
+    fun write() {
         print("명언 : ")
         val content = readlnOrNull() ?: ""
         print("작가 : ")
@@ -14,8 +14,8 @@ class WiseSayingController {
         println("${id}번 명언이 등록되었습니다.")
     }
 
-    fun list(keywordType: String? = null, keyword: String? = null){
-        val wiseSayings = wiseSayingService.findAll(keywordType, keyword)
+    fun list(page: Int = 1, keywordType: String? = null, keyword: String? = null) {
+        val (pagedSayings, totalPages) = wiseSayingService.findAll(page, keywordType, keyword)
 
         if (keywordType != null && keyword != null) {
             println("----------------------")
@@ -23,14 +23,21 @@ class WiseSayingController {
             println("검색어 : $keyword")
             println("----------------------")
         }
+
         println("번호 / 작가 / 명언")
         println("----------------------")
-        wiseSayings.asReversed().forEach { saying ->
+        pagedSayings.forEach { saying ->
             println("${saying.id} / ${saying.author} / ${saying.content}")
         }
+        println("----------------------")
+
+        val pageButtons = (1..totalPages).map { i ->
+            if (i == page) "[$i]" else "$i"
+        }
+        println("페이지 : ${pageButtons.joinToString(" / ")}")
     }
 
-    fun delete(id: Int){
+    fun delete(id: Int) {
         val isDeleted = wiseSayingService.remove(id)
         if (isDeleted) {
             println("${id}번 명언이 삭제되었습니다.")
@@ -39,9 +46,9 @@ class WiseSayingController {
         }
     }
 
-    fun modify(id: Int){
+    fun modify(id: Int) {
         val found = wiseSayingService.findById(id)
-        if(found != null) {
+        if (found != null) {
             println("명언(기존) : ${found.content}")
             print("명언 : ")
             val newContent = readlnOrNull() ?: ""

@@ -6,6 +6,12 @@ class WiseSayingRepository {
     val wiseSayings = mutableListOf<WiseSaying>()
     var count = 0
 
+    init {
+        for (i in 1..13) {
+            add("명언 $i", "작자미상 $i")
+        }
+    }
+
     fun add(content: String, author: String): Int {
         ++count
         wiseSayings.add(WiseSaying(count, content, author))
