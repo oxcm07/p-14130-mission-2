@@ -1,4 +1,4 @@
-package com.wiseSaying
+package com
 
 import com.wiseSaying.controller.WiseSayingController
 

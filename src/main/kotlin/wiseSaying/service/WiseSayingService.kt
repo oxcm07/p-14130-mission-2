@@ -1,6 +1,6 @@
 package com.wiseSaying.service
 
-import com.wiseSaying.WiseSaying
+import com.wiseSaying.entity.WiseSaying
 import com.wiseSaying.repository.WiseSayingRepository
 
 class WiseSayingService {

@@ -1,4 +1,4 @@
-package com.wiseSaying
+package com
 
 fun main() {
     val app = App()

@@ -1,6 +1,6 @@
 package com.wiseSaying.repository
 
-import com.wiseSaying.WiseSaying
+import com.wiseSaying.entity.WiseSaying
 
 class WiseSayingRepository {
     val wiseSayings = mutableListOf<WiseSaying>()
